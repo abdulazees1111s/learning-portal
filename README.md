@@ -1,9 +1,3 @@
-Here is a clean, text-based description of the application's overview, technical stack, file structure, core functions, and feature upgrades designed specifically for your `README.md`.
-
-This version uses clear Markdown formatting and contains absolutely **no emojis**, keeping it clean and strictly professional.
-
----
-
 ### Project Overview
 
 This application is a secure, high-performance web-based Learning Portal designed for students to stream educational video content. It features an interactive, real-time workspace that allows students to study effectively by taking customizable video notes (bookmarks) and pausing or resuming their lectures seamlessly.
