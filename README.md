@@ -1,54 +1,57 @@
-#Learning Portal
+Here is a clean, text-based description of the application's overview, technical stack, file structure, core functions, and feature upgrades designed specifically for your `README.md`.
 
-A high-performance, student-centric Learning Portal built with React and Tailwind CSS v4. This portal delivers a seamless video-learning experience complete with live dynamic video bookmarking, session playback auto-resumption, and front-end screenshot mitigation and deterrence frameworks.
-
----
-
-## 🚀 Key Features
-
-*   **Student-Friendly Layout**: A modern, split-pane layout designed around intuitive workspace interfaces. Stacks gracefully on mobile viewports for full responsiveness.
-*   **Precision Video Bookmarking**: Capture multiple high-resolution timestamps down to the second. Add optional descriptive titles, view active lists, and click to seek smoothly.
-*   **Persistent Storage Model**: Bookmarks and progress markers instantly sync via local application states straight to browser local storage engines.
-*   **Continue Watching (Auto-Resume)**: The system hooks into playback frame transitions and caches time positions, returning the student exactly where they left off upon reload.
-*   **Multi-Layered Screenshot Protection**: Employs client-side mitigation strategies to discourage content scraping and screen-capturing.
+This version uses clear Markdown formatting and contains absolutely **no emojis**, keeping it clean and strictly professional.
 
 ---
 
-## 🛡️ Screenshot & Content Protection Strategy
+### Project Overview
 
-Because this application runs entirely within standard web browser environments, hardware-level screenshot execution blocking is natively sandboxed out of bounds. To satisfy the requirement effectively, this platform applies a layered **Deterrence, Blurring, and Traceability** framework:
+This application is a secure, high-performance web-based Learning Portal designed for students to stream educational video content. It features an interactive, real-time workspace that allows students to study effectively by taking customizable video notes (bookmarks) and pausing or resuming their lectures seamlessly.
 
-1. **Context & Key Interception**: Mouse right-clicks are explicitly overridden on the video container component to block basic DOM asset inspect loops or "Save Video As" context operations.
-2. **Focus State Management**: Using the HTML5 Page Visibility API paired with window `blur`/`focus` browser listeners, the system applies a massive `blur-2xl` CSS utility filter over the viewport the absolute millisecond the browser window loses focus (e.g., when firing up native Snipping Tools or switching view applications).
-3. **Dynamic User Watermarking**: Injects an low-opacity, unselectable overlay tracking user session context (`User: student_demo@gvcc.edu`) floating over active frame sequences, rendering unauthorized screen clips or records identifyingly traceable back to the student account.
+The application is built with a strong focus on content security, incorporating front-end mitigation techniques to deter unauthorized screen-capturing, video downloading, or content sharing.
 
 ---
 
-## 💾 System Architecture & Database Design
+### Technology Stack
 
-While this standalone builds on localized storage engines for decoupled, configuration-free testing, it is architected around robust structural schemas designed to map perfectly into external databases (e.g., PostgreSQL, Supabase, or MongoDB):
+* **Frontend Library**: React (built using the Vite build system for sub-second hot module reloading)
+* **Styling Engine**: Tailwind CSS v4 (leveraging its native CSS-based compilation and performance gains)
+* **Icons**: Lucide React (for lightweight, modern UI symbols)
+* **State Management & Persistence**: Custom React Hooks coupled with HTML5 LocalStorage API
+* **Video Media Engine**: HTML5 native Video API
 
-### Suggested Data Models (Relational Schema)
+---
 
-```sql
-CREATE TABLE users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email VARCHAR(255) UNIQUE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
+### Project File Structure
 
-CREATE TABLE videos (
-    id VARCHAR(100) PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    video_url TEXT NOT NULL,
-    duration INT NOT NULL -- stored in total seconds
-);
+The project follows a modular, clean architectural separation of concerns:
 
-CREATE TABLE bookmarks (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    video_id VARCHAR(100) REFERENCES videos(id) ON DELETE CASCADE,
-    title VARCHAR(255),
-    timestamp DOUBLE PRECISION NOT NULL, -- exact frame offset in seconds
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
+```text
+src/
+├── components/
+│   ├── VideoPlayer.jsx       # Renders video player DOM, manages watermark overlays and blur security state
+│   └── BookmarkList.jsx      # Maps and lists saved bookmarks, handles seek execution and deletion events
+├── hooks/
+│   └── useBookmarks.js       # Custom state-machine hook managing bookmark CRUD and local storage sync
+├── App.jsx                   # Central page hub containing visibility listeners and layout grid
+├── index.css                 # Import entry-point for Tailwind v4 compiler
+└── main.jsx                  # React DOM viewport root mounting point
+
+```
+
+---
+
+### Core Functions
+
+* **Time-Synchronized Bookmarking**: Students can mark specific times in a video. Clicking any bookmark instantly passes the coordinate to the player ref, moving the playhead back to that precise second.
+* **Focus-Loss Video Blurring**: Tracks active user focus. The moment a user clicks away from the browser viewport or triggers a screenshot program, a security blur class is applied to hide the video frames.
+* **Dynamic Traceability Overlays**: Generates low-opacity text elements with active session details (such as user email and active session tags) directly over the playing video frame to deter illegal external recording.
+* **Right-Click Deterrence**: Intercepts and blocks context menu generation over the video canvas wrapper to block standard "Save Video As..." browser tricks.
+
+---
+
+### Implemented Upgrades
+
+* **Continue Watching (Session Auto-Resume)**: Every frame change of the video updates a secure record of current playback progress. If the student closes the page, opens a different tab, or refreshes the browser, the application reads the cached progress on load and immediately seeks to that position.
+* **Dynamic Empty States**: The bookmark container renders an interactive contextual state when no bookmarks exist, prompting the student on how to begin.
+* **Responsive Adaptive Grid**: The workspace layout transitions from a side-by-side desktop view to an stacked vertical layout on mobile, keeping both the video and bookmark notes accessible on smaller devices.
