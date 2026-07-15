@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* Minimal, safe resets that won't break your responsive Tailwind layout */
+body {
+  background-color: #f8fafc;
+  margin: 0;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure the react layout container is clean and doesn't restrict width */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Dark mode overrides (optional, but keeps colors consistent if OS goes dark) */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #0f172a; /* Tailwind slate-900 background */
+    color: #f1f5f9;
+  }
+}
